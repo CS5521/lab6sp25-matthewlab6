@@ -7,9 +7,12 @@
 #include "mmu.h"
 #include "proc.h"
 
+static int forkCount = 0;
+
 int
 sys_fork(void)
 {
+  forkCount += 1;
   return fork();
 }
 
@@ -88,4 +91,28 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+// print "hello world!"
+int
+sys_hw(void)
+{
+  cprintf("hello world!\n");
+  return 0;
+}
+
+// return fork count
+int
+sys_fkc(void)
+{
+  int n = 1;
+  if (argint(0, &n) < 0) {
+    forkCount = 0;
+    return 0;
+  }
+  if (n == 0) {
+    forkCount = 0;
+    return 0;
+  } 
+  return forkCount;
 }
