@@ -7,6 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 
+//Counter for the number of sys_fork() calls
 static int forkCount = 0;
 
 int
@@ -101,7 +102,9 @@ sys_hw(void)
   return 0;
 }
 
-// return fork count
+// @return forkCount
+// @param A flag which, if 0, sets forkCount to 0 
+//
 int
 sys_fkc(void)
 {
